@@ -1,0 +1,6 @@
+<footer class="footer">
+    <img class="brand-icon" src="https://iocaffcdn.phphub.org/uploads/sites/KDiyAbV0hj1"
+    <a href="https://laravel-china.org/courses" target="_blank">刻意练习每日精进</a>
+    <div class="float-right"><a href="{{route('about')}}">关于</a>
+    </div>
+</footer>
