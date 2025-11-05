@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Str;
 use Faker\Generator as Faker;
+use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +14,7 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\User::class, function (Faker $faker) {
+$factory->define(\App\Models\User::class, function (Faker $faker) {
     $date_time = $faker->date . ' ' . $faker->time;
     return [
         'name' => $faker->name,
