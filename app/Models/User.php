@@ -55,6 +55,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Status::class);
     }
+    public function followers()
+    {                                    // 目标模型类         中间表名                    当前模型在中间表的外键列名    目标模型在中间表的外键列名
+        return $this->belongsToMany(User::Class, 'followers', 'user_id', 'follower_id');
+    }
+    public function followings() //关注哪些人
+    {                                      // 目标模型类         中间表名                    当前模型在中间表的外键列名    目标模型在中间表的外键列名
+        return $this->belongsToMany(User::Class, 'followers', 'follower_id', 'user_id');
+    }
 
     public function feed()
     {

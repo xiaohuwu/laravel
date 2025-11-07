@@ -79,6 +79,7 @@ class UsersController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password)
         ]);
+        $user->followings()->allRelatedIds()->all();
         session()->flash('success', '注册成功~');
         $this->sendEmailConfirmationTo($user);
         return redirect()->route('users.show', [$user->id]);
