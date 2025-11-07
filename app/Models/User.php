@@ -55,10 +55,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Status::class);
     }
+
+    // 粉丝集合
     public function followers()
     {                                    // 目标模型类         中间表名                    当前模型在中间表的外键列名    目标模型在中间表的外键列名
         return $this->belongsToMany(User::Class, 'followers', 'user_id', 'follower_id');
     }
+
     public function followings() //关注哪些人
     {                                      // 目标模型类         中间表名                    当前模型在中间表的外键列名    目标模型在中间表的外键列名
         return $this->belongsToMany(User::Class, 'followers', 'follower_id', 'user_id');
@@ -66,7 +69,35 @@ class User extends Authenticatable
 
     public function feed()
     {
-        return $this->statuses()
+        $user_ids = $this->followings->pluck("user_id")->toArray();
+        array_push($user_ids, $this->id);
+        return Status::whereIn('user_id', $user_ids)
+            ->with('user')
             ->orderBy('created_at', 'desc');
     }
+
+    //关注某人
+    public function follow($user_ids)
+    {
+        if (!is_array($user_ids)) {
+            $user_ids = [$user_ids];
+        }
+        $this->followings()->sync($user_ids, false);
+    }
+
+    //不关注某人
+    public function unfollow($user_ids)
+    {
+        if (!is_array($user_ids)) {
+            $user_ids = [$user_ids];
+        }
+        $this->followings()->detach($user_ids);
+    }
+
+    public function isFollowing($user_id)
+    {
+        return $this->followings->contains($user_id);
+    }
+
+
 }

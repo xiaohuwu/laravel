@@ -51,6 +51,21 @@ class UsersController extends Controller
         return view('users.edit', compact('user'));
     }
 
+    public function followings(User $user)
+    {
+        $users = $user->followings()->paginate(30);
+        $title = $user->name . "关注的人";
+        return view('users.show_follow', compact('users', 'title'));
+    }
+
+    public function followers(User $user)
+    {
+        $users = $user->followers()->paginate(30);
+        $title = $user->name . "粉丝列表";
+        return view('users.show_follow', compact('users', 'title'));
+    }
+
+
     public function update(User $user, Request $request)
     {
         $this->authorize('update', $user);
